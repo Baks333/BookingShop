@@ -1,0 +1,47 @@
+﻿@model Domain.Entities.Hotel
+
+
+<div class="well">
+    <div class="row">
+        <div class="col-xs-9">
+            <h3>
+                <strong id="title" class="label label-danger">
+                    @Model.Title
+                </strong>
+            </h3>
+            <h4>
+                <strong id="title" class="label label-warning">
+                    @Model.City
+                </strong>
+            </h4>
+        </div>
+        <div class="col-xs-3">
+            <h3>
+                <strong id="price" class="pull-right label label-primary">
+                    @Model.PriceForPerson.ToString("Цена # руб")
+                </strong>
+
+                @if (Model.Discount != 0)
+                {
+                    <strong id="discount" class="pull-right label label-primary">
+                        @Model.Discount.ToString("Скидка # %")
+                    </strong>
+                }
+                <strong id="size" class="pull-right label label-info">
+                    Вместимость номера: @Model.Size
+                </strong>
+            </h3>
+
+            @using (Html.BeginForm("AddToCart", "Cart"))
+            {
+                    <div class="pull-right">
+                        @Html.HiddenFor(x => x.HotelID)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        <input type="submit" class="btn btn-default" value="Выбрать" />
+                    </div>
+            }
+
+        </div>
+    </div>
+    <span class="lead">@Model.Description</span>
+</div>

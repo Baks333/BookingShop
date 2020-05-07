@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Domain.Entities.Users>
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-footer">
+        @Html.ActionLink("Список отелей", "Index", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Список заказов", "Reservations", null, new { @class = "btn btn-default" })
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.UserID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Login)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Password)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
+                <th class="text-center">
+                    Действия
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-right">
+                        @item.UserID
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Login, "UpdateUser", new { item.UserID })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("DeleteUser", "Admin"))
+                        {
+                            @Html.Hidden("UserID", item.UserID)
+                            <input type="submit" class="btn btn-default btn-xs" value="Удалить" />
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <div class="panel-footer">
+        @Html.ActionLink("Добавить", "AddUser", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+

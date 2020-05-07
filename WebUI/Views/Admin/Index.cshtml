@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Domain.Entities.Hotel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-footer">
+        @Html.ActionLink("Список заявок", "Reservations", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Список пользователей", "Users", null, new { @class = "btn btn-default" })
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.HotelID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Size)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.PriceForPerson)
+                </th>
+                <th class="text-center">
+                    Действия
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="text-right">
+                    @item.HotelID
+                </td>
+                <td>
+                    @Html.ActionLink(item.Title, "Edit", new { item.HotelID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.PriceForPerson)
+                </td>
+                <td class="text-center">
+                    @using (Html.BeginForm("Delete", "Admin"))
+                    {
+                        @Html.Hidden("HotelID", item.HotelID)
+                        <input type="submit" class="btn btn-default btn-xs" value="Удалить" />
+                    }
+                </td>
+            </tr>
+            }
+
+        </table>
+    </div>
+
+    <div class="panel-footer">
+        @Html.ActionLink("Добавить", "Create", null, new { @class = "btn btn-default" })
+    </div>
+</div>

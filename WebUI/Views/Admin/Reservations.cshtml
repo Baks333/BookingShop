@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Domain.Entities.Reservation>
+
+@{
+    ViewBag.Title = "Reservations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-footer">
+        @Html.ActionLink("Список отелей", "Index", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Список пользователей", "Users", null, new { @class = "btn btn-default" })
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfFiling)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ArrivalDate)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.NightsAmount)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.PersonAmount)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Sum)
+                </th>
+
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th class="text-center">
+                    Действия
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="text-right">
+                    @item.FullName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfFiling)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalDate)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.NightsAmount)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.PersonAmount)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Sum)
+                </td>
+
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td class="text-center">
+                    @using (Html.BeginForm("Delete", "Admin"))
+                    {
+                        @Html.Hidden("ReservationID", item.ReservationID)
+                        <input type="submit" class="btn btn-default btn-xs" value="Удалить" />
+                    }
+                </td>
+                @if (item.Status == "ЗАЯВКА НА РАССМОТРЕНИИ")
+                {
+                    <td class="text-center">
+                        @using (Html.BeginForm("AcceptReservation", "Admin"))
+                        {
+                            @Html.Hidden("ReservationID", item.ReservationID)
+                            <input type="submit" class="btn btn-default btn-xs" value="Подтвердить бронь" />
+                        }
+                    </td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("DeclineReservation", "Admin"))
+                        {
+                            @Html.Hidden("ReservationID", item.ReservationID)
+                            <input type="submit" class="btn btn-default btn-xs" value="Отклонить бронь" />
+                        }
+                    </td>
+                }
+            </tr>
+            }
+
+        </table>
+    </div>
+</div>
